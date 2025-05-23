@@ -32,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    //Memeriksa "Tiket" (Authorization Header):
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
@@ -40,13 +41,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring(7); //Mengambil "Tiket" dari "Amplop" (Extract JWT)
         try {
-            username = jwtService.extractUsername(jwt);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            username = jwtService.extractUsername(jwt); //Membaca Informasi dari "Tiket" (Extract Username):
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) { //Memastikan Belum Ada yang "Login" (SecurityContextHolder):
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username); //Memeriksa Keabsahan "Tiket" (Is Token Valid):
                 if (jwtService.isTokenValid(jwt, userDetails)) {
 
+                    //Mengizinkan Masuk Jika "Tiket" Valid (Set Authentication):
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);

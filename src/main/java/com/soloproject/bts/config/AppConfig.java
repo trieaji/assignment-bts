@@ -44,4 +44,10 @@ public class AppConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();
     }
+
+    /*Singkatnya: Kode ini adalah kumpulan konfigurasi penting agar aplikasi Money Manager dapat berjalan dengan aman,
+    dapat diakses oleh aplikasi lain yang diizinkan,
+    dapat berkomunikasi dengan aplikasi lain,
+    memiliki sistem keamanan untuk penggunanya,
+    dan memiliki dokumentasi yang jelas untuk pengembang lain.*/
 }
